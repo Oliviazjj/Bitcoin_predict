@@ -15,11 +15,14 @@ from sklearn.ensemble import GradientBoostingRegressor
 import matplotlib.pyplot as plt
 
 
-df = pd.read_csv("BTC_1hr.csv") # read csv file
-
+df = pd.read_csv("gemini_BTCUSD_1hr.csv", delimiter = ',', skiprows=[0]) # read csv file
+# print("head is ", df.head(1))
+# print("csv value is ", df.values)
 rows = df.values.tolist()  # convert dataframe into a list
 rows.reverse() #reverse rows since we want latest date be the end of the list
-print("row count i s", rows)
+# print("row count is", rows)
+
+
 
 # result will be up/down based on the price of previous day
 x_train = [] #training dataset
@@ -29,9 +32,14 @@ y_test = [] #testing class set
 X = []
 Y = []
 for row in rows[:-2]:
-	X.append(int(''.join(row[1].split('-'))))
-	Y.append(row[3])
-x_train, x_test, y_train, y_test = train_test_split(X,Y,train_size=0.9,test_size=0.1) # split training and test data
+	# time = row[1].replace(':', '-')
+	# time = time.replace(' ', '-')
+	# time_list = int(''.join(time.split('-')))
+	time_list = int(''.join(row[0].split('-')))
+	# print("time list is ", time_list)
+	X.append(time_list)
+	Y.append(row[5])
+x_train, x_test, y_train, y_test = train_test_split(X,Y,train_size=0.9,test_size=0.1) # 90% of data is used for training and remaining data for testing
 
 # Convert lists into numpy arrays
 x_train = np.array(x_train)
@@ -93,3 +101,4 @@ print("Accuracy of Linear Regerssion Model:",clf_lr.score(x_test,y_test))
 print("Accuracy of SVM-RBF Model:",clf_svr.score(x_test,y_test))
 print("Accuracy of Random Forest Model:",clf_rf.score(x_test,y_test))
 print("Accuracy of Gradient Boosting Model:",clf_gb.score(x_test,y_test))
+
