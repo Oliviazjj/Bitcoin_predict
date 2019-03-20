@@ -10,7 +10,7 @@ def stringToBoolean(s):
 parser.add_argument("--mode", type=str,
                       default="train",
                       choices=["train", "test"],
-                      help="Run mode")
+                      help="Running mode of program. Either test or train")
 
 parser.add_argument("--learning_rate", type=float,
                        default=1e-4,
