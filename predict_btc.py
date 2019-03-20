@@ -12,6 +12,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import GradientBoostingRegressor
+import matplotlib
+matplotlib.use('PS')
 import matplotlib.pyplot as plt
 
 
@@ -23,7 +25,6 @@ rows.reverse() #reverse rows since we want latest date be the end of the list
 # print("row count is", rows)
 
 
-
 # result will be up/down based on the price of previous day
 x_train = [] #training dataset
 y_train = [] #training class set
@@ -31,6 +32,9 @@ x_test = [] #testing dataset
 y_test = [] #testing class set
 X = []
 Y = []
+
+weights = []
+
 for row in rows[:-2]:
 	# time = row[1].replace(':', '-')
 	# time = time.replace(' ', '-')
@@ -39,13 +43,70 @@ for row in rows[:-2]:
 	# print("time list is ", time_list)
 	X.append(time_list)
 	Y.append(row[5])
+	weights.append([row[2],row[3],row[4],row[6],row[7]])
+
 x_train, x_test, y_train, y_test = train_test_split(X,Y,train_size=0.9,test_size=0.1) # 90% of data is used for training and remaining data for testing
+
+
+#------ Linear regression with some weights.
+weightToNumpy = np.array(weights,dtype = float)
+valueToNumpy = np.array(Y,dtype = float)
+
+weightsTranspose = weightToNumpy.transpose()
+toGether = np.matmul(weightsTranspose,weightToNumpy)
+
+formRight = np.matmul(weightsTranspose,valueToNumpy)
+formLeft = np.linalg.inv(toGether)
+
+w = np.matmul(formRight,formLeft)
+wTranspose = w.transpose()
+
+yDoubleU = np.array([0])
+
+for i in range(1254):
+	tempNumpyArray = np.array(weights[i],dtype = float)
+	tmpRightSide = np.matmul(wTranspose,tempNumpyArray)
+	temp = np.subtract(valueToNumpy[i],tmpRightSide)
+	temp = (temp*temp)
+	yDoubleU = yDoubleU + temp
+lossFunction = (yDoubleU/(2*1254))
+
+print("Loss function using linear model: " + str(lossFunction))
+#---------------------------------------------
+
+#--Sochastic. 
+learningRate = 0.0000000000000001
+randomNum = np.random.random_sample(5)
+wTranspose = randomNum.transpose()
+print(wTranspose)
+
+for k in range(100):
+	for j in range(1254):
+		yhatP = np.matmul(wTranspose,weightToNumpy[j])
+		yMinusYHatP = np.subtract(valueToNumpy[j],yhatP)
+
+		for i in range(5):
+			xIndexIJ = weightToNumpy[j][i]
+			temp = learningRate*yMinusYHatP*xIndexIJ
+			randomNum[i] = randomNum[i] + temp
+
+for i in range(1254):
+	tempNumpyArray = np.array(weights[i],dtype = float)
+	tmpRightSide = np.matmul(wTranspose,tempNumpyArray)
+	temp = np.subtract(valueToNumpy[i],tmpRightSide)
+	temp = (temp*temp)
+	yDoubleU = yDoubleU + temp
+lossFunction = (yDoubleU/(2*1254))
+
+print("Loss function using Sochastic " + str(lossFunction))
+#--------------------------
 
 # Convert lists into numpy arrays
 x_train = np.array(x_train)
 y_train = np.array(y_train)
 x_test = np.array(x_test)
 y_test = np.array(y_test)
+
 
 # reshape the values as we have only one input feature
 x_train = x_train.reshape(-1,1)
