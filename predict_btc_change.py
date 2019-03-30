@@ -8,7 +8,6 @@
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestRegressor
@@ -20,15 +19,9 @@ import matplotlib.pyplot as plt
 # get accuracy for bitoin only 
 
 df_bitcoin = pd.read_csv("bitcoin_price.csv", delimiter = ',') # read csv file
-
-df_bitcoin["Open"] = (df_bitcoin["Open"]-df_bitcoin["Open"].min()) / (df_bitcoin["Open"].max()-df_bitcoin["Open"].min())
-# print("df_bitcoin[\"Open\"] is ", df_bitcoin["Open"])
-df_bitcoin["Close"] = (df_bitcoin["Close"]-df_bitcoin["Close"].min()) / (df_bitcoin["Close"].max()-df_bitcoin["Close"].min())
-# print("df_bitcoin[\"Close\"] is ", df_bitcoin["Close"])
-
-
 # print("head is ", df.head(1))
 # print("csv value is ", df.values)
+
 rows_bitcoin = df_bitcoin.values.tolist()  # convert dataframe into a list
 rows_bitcoin.reverse() #reverse rows since we want latest date be the end of the list
 # print("row count is", rows)
@@ -42,11 +35,21 @@ y_test_bitcoin = [] #testing class set
 X_bitcoin = []
 Y_bitcoin = []
 
-print("row length is", len(rows_bitcoin))
+print("row length i s", len(rows_bitcoin))
 for row in rows_bitcoin:
+	# time = row[1].replace(':', '-')
+	# time = time.replace(' ', '-')
+	# time_list = int(''.join(time.split('-')))
+	# time_list = int(''.join(row[0].split('-')))
+	# print("time list is ", time_list)
+
 	X_bitcoin.append(row[2])
 	X_bitcoin.append(row[6])
-	Y_bitcoin.append(row[5])
+	# Y_bitcoin.append(row[5])
+	change = 0 if (float(row[5])-float(row[2])==0) else (1 if (float(row[5])-float(row[2])>0) else -1) 
+	Y_bitcoin.append(change)
+print("x is ", X_bitcoin)
+print("y is ", Y_bitcoin)
 X_bitcoin = np.array(X_bitcoin)
 Y_bitcoin = np.array(Y_bitcoin)
 X_bitcoin = X_bitcoin.reshape(-1,2)

@@ -20,10 +20,6 @@ import matplotlib.pyplot as plt
 
 # get training and testing data for bitcoin
 df_bitcoin = pd.read_csv("bitcoin_price.csv", delimiter = ',') # read csv file
-df_bitcoin["Open"] = (df_bitcoin["Open"]-df_bitcoin["Open"].min()) / (df_bitcoin["Open"].max()-df_bitcoin["Open"].min())
-# print("df_bitcoin[\"Open\"] is ", df_bitcoin["Open"])
-df_bitcoin["Close"] = (df_bitcoin["Close"]-df_bitcoin["Close"].min()) / (df_bitcoin["Close"].max()-df_bitcoin["Close"].min())
-# print("df_bitcoin[\"Close\"] is ", df_bitcoin["Close"])
 rows_bitcoin = df_bitcoin.values.tolist()  # convert dataframe into a list
 rows_bitcoin.reverse() #reverse rows since we want latest date be the end of the list
 
@@ -39,7 +35,9 @@ print("row length i s", len(rows_bitcoin))
 for row in rows_bitcoin:
 	X_bitcoin.append(row[2])
 	X_bitcoin.append(row[6])
-	Y_bitcoin.append(row[5])
+	# Y_bitcoin.append(row[5])
+	change = 0 if (float(row[5])-float(row[2])==0) else (1 if (float(row[5])-float(row[2])>0) else -1) 
+	Y_bitcoin.append(change)
 X_bitcoin = np.array(X_bitcoin)
 Y_bitcoin = np.array(Y_bitcoin)
 X_bitcoin = X_bitcoin.reshape(-1,2)
@@ -75,12 +73,8 @@ y_test_bitcoin = np.array(y_test_bitcoin)
 
 
 # get training and testing data for gold
-df_gold = pd.read_csv("gold_price_edit.csv", delimiter = ',') # read csv file
+df_gold = pd.read_csv("gold_price_edit.csv", delimiter = ',', skiprows=[0]) # read csv file
 # print("head is ", df.head(1))
-df_gold["Open"] = (df_gold["Open"]-df_gold["Open"].min()) / (df_gold["Open"].max()-df_gold["Open"].min())
-print("df_gold[\"Open\"] is ", df_gold["Open"])
-df_gold["Price"] = (df_gold["Price"]-df_gold["Price"].min()) / (df_gold["Price"].max()-df_gold["Price"].min())
-print("df_gold[\"Price\"] is ", df_gold["Price"])
 # print("csv value is ", df.values)
 rows_gold = df_gold.values.tolist()  # convert dataframe into a list
 rows_gold.reverse() #reverse rows since we want latest date be the end of the list
@@ -95,11 +89,13 @@ y_test_gold = [] #testing class set
 X_gold = []
 Y_gold = []
 
-print("row length i s", len(rows_gold))
-for row in rows_gold:
+print("row length i s", len(rows_gold[:-1]))
+for row in rows_gold[:-1]:
 	X_gold.append(row[2])
 	X_gold.append(row[5])
-	Y_gold.append(row[1])
+	# Y_gold.append(row[1])
+	change = 0 if (float(row[1])-float(row[2])==0) else (1 if (float(row[1])-float(row[2])>0) else -1) 
+	Y_gold.append(change)
 X_gold = np.array(X_gold)
 Y_gold = np.array(Y_gold)
 X_gold = X_gold.reshape(-1,2)

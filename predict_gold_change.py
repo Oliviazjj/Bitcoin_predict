@@ -7,7 +7,6 @@
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestRegressor
@@ -20,15 +19,7 @@ import matplotlib.pyplot as plt
 # get accuracy for gold only 
 
 df_gold = pd.read_csv("gold_price_edit.csv", delimiter = ',') # read csv file
-
-df_gold["Open"] = (df_gold["Open"]-df_gold["Open"].min()) / (df_gold["Open"].max()-df_gold["Open"].min())
-print("df_gold[\"Open\"] is ", df_gold["Open"])
-df_gold["Price"] = (df_gold["Price"]-df_gold["Price"].min()) / (df_gold["Price"].max()-df_gold["Price"].min())
-print("df_gold[\"Price\"] is ", df_gold["Price"])
-
-
 # print("head is ", df.head(1))
-# print("csv value is ", df.values)
 rows_gold = df_gold.values.tolist()  # convert dataframe into a list
 rows_gold.reverse() #reverse rows since we want latest date be the end of the list
 # print("row count is", rows)
@@ -42,17 +33,12 @@ y_test_gold = [] #testing class set
 X_gold = []
 Y_gold = []
 
-print("row length is", len(rows_gold))
+print("row length i s", len(rows_gold))
 for row in rows_gold:
-	# time = row[1].replace(':', '-')
-	# time = time.replace(' ', '-')
-	# time_list = int(''.join(time.split('-')))
-	# time_list = int(''.join(row[0].split('-')))
-	# print("time list is ", time_list)
-
 	X_gold.append(row[2])
 	X_gold.append(row[5])
-	Y_gold.append(row[1])
+	change = 0 if (float(row[1])-float(row[2])==0) else (1 if (float(row[1])-float(row[2])>0) else -1) 
+	Y_gold.append(change)
 print("x is ", X_gold)
 print("y is ", Y_gold)
 X_gold = np.array(X_gold)
