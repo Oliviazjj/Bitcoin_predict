@@ -17,7 +17,7 @@ matplotlib.use('PS')
 import matplotlib.pyplot as plt
 
 
-df = pd.read_csv("gemini_BTCUSD_1hr.csv", delimiter = ',', skiprows=[0]) # read csv file
+df = pd.read_csv("bitcoin_price.csv", delimiter = ',', skiprows=[0]) # read csv file
 # print("head is ", df.head(1))
 # print("csv value is ", df.values)
 rows = df.values.tolist()  # convert dataframe into a list
