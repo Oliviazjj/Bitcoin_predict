@@ -39,6 +39,11 @@ with open('gold_price.csv', 'r') as inp, open('gold_price_edit.csv', 'w') as out
         	row[0][0] = month_string_to_number(row[0][0])
         	row[0][1] = row[0][1][:-1]
         	row[0] = str(row[0][2])+'-'+str(row[0][0])+'-'+str(row[0][1])
+        	row[1] = row[1].replace(",","")
+        	row[2] = row[2].replace(",","")
+        	row[3] = row[3].replace(",","")
+        	row[4] = row[4].replace(",","")
+        	row[5] = row[5].replace(",","")
         	# row[0] = "-".join(row[0])
         	print("row 0 is ", row[0])
         	# print("vol is ", vol, "float_vol: ", float_vol, "after change: ", row[5])
