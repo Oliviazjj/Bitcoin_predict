@@ -196,23 +196,23 @@ print("\n\n\n")
 print("-------accuracy by using gold as training data and bitcoin as testing data------")
 # Linear Regression model
 clf_lr = LinearRegression()
-clf_lr.fit(x_train_gold,y_train_gold)
-y_pred_lr = clf_lr.predict(x_test_bitcoin)
+clf_lr.fit(X_gold,Y_gold)
+y_pred_lr = clf_lr.predict(X_bitcoin)
 
 # Support Vector Machine with a Radial Basis Function as kernel
 clf_svr = SVR(kernel='rbf', C=1e3, gamma=0.1)
-clf_svr.fit(x_train_gold,y_train_gold)
-y_pred_svr = clf_svr.predict(x_test_bitcoin)
+clf_svr.fit(X_gold,Y_gold)
+y_pred_svr = clf_svr.predict(X_bitcoin)
 
 # Random Forest Regressor
 clf_rf = RandomForestRegressor(n_estimators=100)
-clf_rf.fit(x_train_gold,y_train_gold)
-y_pred_rf = clf_rf.predict(x_test_bitcoin)
+clf_rf.fit(X_gold,Y_gold)
+y_pred_rf = clf_rf.predict(X_bitcoin)
 
 # Gradient Boosting Regressor
 clf_gb = GradientBoostingRegressor(n_estimators=200)
-clf_gb.fit(x_train_gold,y_train_gold)
-y_pred_gb = clf_gb.predict(x_test_bitcoin)
+clf_gb.fit(X_gold,Y_gold)
+y_pred_gb = clf_gb.predict(X_bitcoin)
 
 
 # f,(ax1,ax2) = plt.subplots(1,2,figsize=(30,10))
@@ -239,7 +239,7 @@ y_pred_gb = clf_gb.predict(x_test_bitcoin)
 # ax4.plot(range(len(y_test_bitcoin)),y_pred_gb,color='black',label='GB model')
 # ax4.legend()
 
-print("Accuracy of GOLD-BTC Linear Regerssion Model:",clf_lr.score(x_test_bitcoin,y_test_bitcoin))
-print("Accuracy of GOLD-BTC SVM-RBF Model:",clf_svr.score(x_test_bitcoin,y_test_bitcoin))
-print("Accuracy of GOLD-BTC Random Forest Model:",clf_rf.score(x_test_bitcoin,y_test_bitcoin))
-print("Accuracy of GOLD-BTC Gradient Boosting Model:",clf_gb.score(x_test_bitcoin,y_test_bitcoin))
+print("Accuracy of GOLD-BTC Linear Regerssion Model:",clf_lr.score(X_bitcoin,Y_bitcoin))
+print("Accuracy of GOLD-BTC SVM-RBF Model:",clf_svr.score(X_bitcoin,Y_bitcoin))
+print("Accuracy of GOLD-BTC Random Forest Model:",clf_rf.score(X_bitcoin,Y_bitcoin))
+print("Accuracy of GOLD-BTC Gradient Boosting Model:",clf_gb.score(X_bitcoin,Y_bitcoin))
