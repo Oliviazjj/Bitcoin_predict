@@ -15,9 +15,10 @@ from sklearn.ensemble import GradientBoostingRegressor
 import matplotlib
 matplotlib.use('PS')
 import matplotlib.pyplot as plt
+import time
 
 
-
+start_time = time.time()
 # get training and testing data for bitcoin
 df_bitcoin = pd.read_csv("bitcoin_price.csv", delimiter = ',') # read csv file
 df_bitcoin["Open"] = (df_bitcoin["Open"]-df_bitcoin["Open"].min()) / (df_bitcoin["Open"].max()-df_bitcoin["Open"].min())
@@ -133,59 +134,59 @@ y_test_gold = np.array(y_test_gold)
 
 
 
-# get accuracy from different models by using bitcoin as training and gold as testing data
-print("\n\n\n")
-print("-------accuracy by using bitcoin as training data and gold as testing data------")
+# # get accuracy from different models by using bitcoin as training and gold as testing data
+# print("\n\n\n")
+# print("-------accuracy by using bitcoin as training data and gold as testing data------")
 
-# Linear Regression model
-clf_lr = LinearRegression()
-clf_lr.fit(x_train_bitcoin,y_train_bitcoin)
-y_pred_lr = clf_lr.predict(x_test_gold)
+# # Linear Regression model
+# clf_lr = LinearRegression()
+# clf_lr.fit(x_train_bitcoin,y_train_bitcoin)
+# y_pred_lr = clf_lr.predict(x_test_gold)
 
-# Support Vector Machine with a Radial Basis Function as kernel
-clf_svr = SVR(kernel='rbf', C=1e3, gamma=0.1)
-clf_svr.fit(x_train_bitcoin,y_train_bitcoin)
-y_pred_svr = clf_svr.predict(x_test_gold)
+# # Support Vector Machine with a Radial Basis Function as kernel
+# clf_svr = SVR(kernel='rbf', C=1e3, gamma=0.1)
+# clf_svr.fit(x_train_bitcoin,y_train_bitcoin)
+# y_pred_svr = clf_svr.predict(x_test_gold)
 
-# Random Forest Regressor
-clf_rf = RandomForestRegressor(n_estimators=100)
-clf_rf.fit(x_train_bitcoin,y_train_bitcoin)
-y_pred_rf = clf_rf.predict(x_test_gold)
+# # Random Forest Regressor
+# clf_rf = RandomForestRegressor(n_estimators=100)
+# clf_rf.fit(x_train_bitcoin,y_train_bitcoin)
+# y_pred_rf = clf_rf.predict(x_test_gold)
 
-# Gradient Boosting Regressor
-clf_gb = GradientBoostingRegressor(n_estimators=200)
-clf_gb.fit(x_train_bitcoin,y_train_bitcoin)
-y_pred_gb = clf_gb.predict(x_test_gold)
+# # Gradient Boosting Regressor
+# clf_gb = GradientBoostingRegressor(n_estimators=200)
+# clf_gb.fit(x_train_bitcoin,y_train_bitcoin)
+# y_pred_gb = clf_gb.predict(x_test_gold)
 
 
-f,(ax1,ax2) = plt.subplots(1,2,figsize=(30,10))
+# f,(ax1,ax2) = plt.subplots(1,2,figsize=(30,10))
 
-# Linear Regression
-ax1.scatter(range(len(y_test_gold)),y_test_gold,label='data')
-ax1.plot(range(len(y_test_gold)),y_pred_lr,color='green',label='LR model')
-ax1.legend()
+# # Linear Regression
+# ax1.scatter(range(len(y_test_gold)),y_test_gold,label='data')
+# ax1.plot(range(len(y_test_gold)),y_pred_lr,color='green',label='LR model')
+# ax1.legend()
 
-# Support Vector Machine
-ax2.scatter(range(len(y_test_gold)),y_test_gold,label='data')
-ax2.plot(range(len(y_test_gold)),y_pred_svr,color='orange',label='SVM-RBF model')
-ax2.legend()
+# # Support Vector Machine
+# ax2.scatter(range(len(y_test_gold)),y_test_gold,label='data')
+# ax2.plot(range(len(y_test_gold)),y_pred_svr,color='orange',label='SVM-RBF model')
+# ax2.legend()
 
-f1,(ax3,ax4) = plt.subplots(1,2,figsize=(30,10))
+# f1,(ax3,ax4) = plt.subplots(1,2,figsize=(30,10))
 
-# Random Forest Regressor
-ax3.scatter(range(len(y_test_gold)),y_test_gold,label='data')
-ax3.plot(range(len(y_test_gold)),y_pred_rf,color='red',label='RF model')
-ax3.legend()
+# # Random Forest Regressor
+# ax3.scatter(range(len(y_test_gold)),y_test_gold,label='data')
+# ax3.plot(range(len(y_test_gold)),y_pred_rf,color='red',label='RF model')
+# ax3.legend()
 
-# Gradient Boosting Regressor
-ax4.scatter(range(len(y_test_gold)),y_test_gold,label='data')
-ax4.plot(range(len(y_test_gold)),y_pred_gb,color='black',label='GB model')
-ax4.legend()
+# # Gradient Boosting Regressor
+# ax4.scatter(range(len(y_test_gold)),y_test_gold,label='data')
+# ax4.plot(range(len(y_test_gold)),y_pred_gb,color='black',label='GB model')
+# ax4.legend()
 
-print("Accuracy of BTC-GOLD Linear Regerssion Model:",clf_lr.score(x_test_gold,y_test_gold))
-print("Accuracy of BTC-GOLD SVM-RBF Model:",clf_svr.score(x_test_gold,y_test_gold))
-print("Accuracy of BTC_GOLD Random Forest Model:",clf_rf.score(x_test_gold,y_test_gold))
-print("Accuracy of BTC-GOLD Gradient Boosting Model:",clf_gb.score(x_test_gold,y_test_gold))
+# print("Accuracy of BTC-GOLD Linear Regerssion Model:",clf_lr.score(x_test_gold,y_test_gold))
+# print("Accuracy of BTC-GOLD SVM-RBF Model:",clf_svr.score(x_test_gold,y_test_gold))
+# print("Accuracy of BTC_GOLD Random Forest Model:",clf_rf.score(x_test_gold,y_test_gold))
+# print("Accuracy of BTC-GOLD Gradient Boosting Model:",clf_gb.score(x_test_gold,y_test_gold))
 
 
 
@@ -199,10 +200,10 @@ clf_lr = LinearRegression()
 clf_lr.fit(X_gold,Y_gold)
 y_pred_lr = clf_lr.predict(X_bitcoin)
 
-# Support Vector Machine with a Radial Basis Function as kernel
-clf_svr = SVR(kernel='rbf', C=1e3, gamma=0.1)
-clf_svr.fit(X_gold,Y_gold)
-y_pred_svr = clf_svr.predict(X_bitcoin)
+# # Support Vector Machine with a Radial Basis Function as kernel
+# clf_svr = SVR(kernel='rbf', C=1e3, gamma=0.1)
+# clf_svr.fit(X_gold,Y_gold)
+# y_pred_svr = clf_svr.predict(X_bitcoin)
 
 # Random Forest Regressor
 clf_rf = RandomForestRegressor(n_estimators=100)
@@ -215,31 +216,33 @@ clf_gb.fit(X_gold,Y_gold)
 y_pred_gb = clf_gb.predict(X_bitcoin)
 
 
-# f,(ax1,ax2) = plt.subplots(1,2,figsize=(30,10))
+f,(ax1,ax2) = plt.subplots(1,2,figsize=(30,10))
 
-# # Linear Regression
-# ax1.scatter(range(len(y_test_bitcoin)),y_test_bitcoin,label='data')
-# ax1.plot(range(len(y_test_bitcoin)),y_pred_lr,color='green',label='LR model')
-# ax1.legend()
+# Linear Regression
+ax1.scatter(range(len(Y_bitcoin)),Y_bitcoin,label='data')
+ax1.plot(range(len(Y_bitcoin)),y_pred_lr,color='green',label='LR model')
+ax1.legend()
 
 # # Support Vector Machine
 # ax2.scatter(range(len(y_test_bitcoin)),y_test_bitcoin,label='data')
 # ax2.plot(range(len(y_test_gold)),y_pred_svr,color='orange',label='SVM-RBF model')
 # ax2.legend()
 
-# f1,(ax3,ax4) = plt.subplots(1,2,figsize=(30,10))
+f1,(ax3,ax4) = plt.subplots(1,2,figsize=(30,10))
 
-# # Random Forest Regressor
-# ax3.scatter(range(len(y_test_bitcoin)),y_test_bitcoin,label='data')
-# ax3.plot(range(len(y_test_bitcoin)),y_pred_rf,color='red',label='RF model')
-# ax3.legend()
+# Random Forest Regressor
+ax3.scatter(range(len(Y_bitcoin)),Y_bitcoin,label='data')
+ax3.plot(range(len(Y_bitcoin)),y_pred_rf,color='red',label='RF model')
+ax3.legend()
 
-# # Gradient Boosting Regressor
-# ax4.scatter(range(len(y_test_bitcoin)),y_test_bitcoin,label='data')
-# ax4.plot(range(len(y_test_bitcoin)),y_pred_gb,color='black',label='GB model')
-# ax4.legend()
+# Gradient Boosting Regressor
+ax4.scatter(range(len(Y_bitcoin)),Y_bitcoin,label='data')
+ax4.plot(range(len(Y_bitcoin)),y_pred_gb,color='black',label='GB model')
+ax4.legend()
 
 print("Accuracy of GOLD-BTC Linear Regerssion Model:",clf_lr.score(X_bitcoin,Y_bitcoin))
-print("Accuracy of GOLD-BTC SVM-RBF Model:",clf_svr.score(X_bitcoin,Y_bitcoin))
+# print("Accuracy of GOLD-BTC SVM-RBF Model:",clf_svr.score(X_bitcoin,Y_bitcoin))
 print("Accuracy of GOLD-BTC Random Forest Model:",clf_rf.score(X_bitcoin,Y_bitcoin))
 print("Accuracy of GOLD-BTC Gradient Boosting Model:",clf_gb.score(X_bitcoin,Y_bitcoin))
+
+print("--- %s seconds ---" % (time.time() - start_time))
