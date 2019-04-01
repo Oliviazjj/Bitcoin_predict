@@ -12,9 +12,9 @@ from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import GradientBoostingRegressor
-import matplotlib
-matplotlib.use('PS')
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')
 import time
 
 
@@ -216,7 +216,7 @@ clf_gb.fit(X_gold,Y_gold)
 y_pred_gb = clf_gb.predict(X_bitcoin)
 
 
-f,(ax1,ax2) = plt.subplots(1,2,figsize=(30,10))
+f,(ax1,ax2,ax3) = plt.subplots(1,3,figsize=(30,10))
 
 # Linear Regression
 ax1.scatter(range(len(Y_bitcoin)),Y_bitcoin,label='data')
@@ -228,17 +228,18 @@ ax1.legend()
 # ax2.plot(range(len(y_test_gold)),y_pred_svr,color='orange',label='SVM-RBF model')
 # ax2.legend()
 
-f1,(ax3,ax4) = plt.subplots(1,2,figsize=(30,10))
+# f1,(ax3,ax4) = plt.subplots(1,2,figsize=(30,10))
 
 # Random Forest Regressor
-ax3.scatter(range(len(Y_bitcoin)),Y_bitcoin,label='data')
-ax3.plot(range(len(Y_bitcoin)),y_pred_rf,color='red',label='RF model')
-ax3.legend()
+ax2.scatter(range(len(Y_bitcoin)),Y_bitcoin,label='data')
+ax2.plot(range(len(Y_bitcoin)),y_pred_rf,color='red',label='RF model')
+ax2.legend()
 
 # Gradient Boosting Regressor
-ax4.scatter(range(len(Y_bitcoin)),Y_bitcoin,label='data')
-ax4.plot(range(len(Y_bitcoin)),y_pred_gb,color='black',label='GB model')
-ax4.legend()
+ax3.scatter(range(len(Y_bitcoin)),Y_bitcoin,label='data')
+ax3.plot(range(len(Y_bitcoin)),y_pred_gb,color='black',label='GB model')
+ax3.legend()
+plt.show(block=True)
 
 print("Accuracy of GOLD-BTC Linear Regerssion Model:",clf_lr.score(X_bitcoin,Y_bitcoin))
 # print("Accuracy of GOLD-BTC SVM-RBF Model:",clf_svr.score(X_bitcoin,Y_bitcoin))
