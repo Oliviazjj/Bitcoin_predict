@@ -14,7 +14,7 @@ from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import GradientBoostingRegressor
 import matplotlib
-matplotlib.use('PS')
+#matplotlib.use('PS')
 import matplotlib.pyplot as plt
 
 # get accuracy for bitoin only 
@@ -86,7 +86,7 @@ clf_gb.fit(x_train_bitcoin,y_train_bitcoin)
 y_pred_gb = clf_gb.predict(x_test_bitcoin)
 
 
-f,(ax1,ax2) = plt.subplots(1,2,figsize=(30,10))
+f,(ax1,ax3,ax4) = plt.subplots(1,3,figsize=(30,10))
 
 # Linear Regression
 ax1.scatter(range(len(y_test_bitcoin)),y_test_bitcoin,label='data')
@@ -94,11 +94,11 @@ ax1.plot(range(len(y_test_bitcoin)),y_pred_lr,color='green',label='LR model')
 ax1.legend()
 
 # Support Vector Machine
-ax2.scatter(range(len(y_test_bitcoin)),y_test_bitcoin,label='data')
-ax2.plot(range(len(y_test_bitcoin)),y_pred_svr,color='orange',label='SVM-RBF model')
-ax2.legend()
+#ax2.scatter(range(len(y_test_bitcoin)),y_test_bitcoin,label='data')
+#ax2.plot(range(len(y_test_bitcoin)),y_pred_svr,color='orange',label='SVM-RBF model')
+#ax2.legend()
 
-f1,(ax3,ax4) = plt.subplots(1,2,figsize=(30,10))
+#f1,(ax3,ax4) = plt.subplots(1,2,figsize=(30,10))
 
 # Random Forest Regressor
 ax3.scatter(range(len(y_test_bitcoin)),y_test_bitcoin,label='data')
@@ -109,6 +109,7 @@ ax3.legend()
 ax4.scatter(range(len(y_test_bitcoin)),y_test_bitcoin,label='data')
 ax4.plot(range(len(y_test_bitcoin)),y_pred_gb,color='black',label='GB model')
 ax4.legend()
+plt.show(block=True)
 
 print("Accuracy of BTC Linear Regerssion Model:",clf_lr.score(x_test_bitcoin,y_test_bitcoin))
 print("Accuracy of BTC SVM-RBF Model:",clf_svr.score(x_test_bitcoin,y_test_bitcoin))
